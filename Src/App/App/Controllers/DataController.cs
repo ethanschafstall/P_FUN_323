@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using App.Tools;
 using System.Data;
-
+using System.Linq;
+using System.Text;
+using System;
 namespace App.Controllers
 {
     public class DataController : Controller
@@ -14,6 +16,10 @@ namespace App.Controllers
 
             var dataList = DataManager.ConvertDataTableToList(dataTable);
             dataList.RemoveRange(0, 9);
+
+            var niceFormatedData = dataList.Select(list => list[0]);
+
+
             return View(dataList);
         }
 
