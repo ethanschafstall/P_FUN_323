@@ -10,7 +10,7 @@ namespace App.Controllers
         // GET: DataController
         public ActionResult Data()
         {
-            DataTable dataTable = DataManager.ConvertCsvToDataTable("C:\\Users\\po01imj\\Documents\\P_FUN_323\\Data\\5634-Zeitreihe_Elektrizitätsbilanz_Schweiz_Monatswerte.csv");
+            DataTable dataTable = DataManager.ConvertCsvToDataTable("C:\\Users\\po01imj\\Documents\\Github\\P_FUN_323\\Data\\5634-Zeitreihe_Elektrizitätsbilanz_Schweiz_Monatswerte.csv");
 
             var dataList = DataManager.ConvertDataTableToList(dataTable);
             dataList.RemoveRange(0, 9);
