@@ -1,0 +1,26 @@
+﻿
+@{
+    ViewData["Title"] = "Data";
+}
+
+<table>
+    <thead>
+        <tr>
+            @foreach (var column in Model[0].Table.Columns)
+            {
+                <th>@column.ColumnName</th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var row in Model)
+        {
+            <tr>
+                @foreach (var item in row.ItemArray)
+                {
+                    <td>@item</td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
