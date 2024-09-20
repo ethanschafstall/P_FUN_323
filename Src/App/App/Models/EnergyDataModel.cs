@@ -1,8 +1,9 @@
 namespace App.Models
 {
-    public class EnergyDataModel
+    public class EnergyData
     {
-        public string MonthYear { get; set; }
+        public string Month { get; set; }
+        public string Year { get; set; }
         public int? Hydropower { get; set; }
         public int? NuclearPower { get; set; }
         public int? ThermalPower { get; set; }
