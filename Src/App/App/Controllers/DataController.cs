@@ -1,26 +1,23 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 using App.Tools;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System;
+
+
 namespace App.Controllers
 {
+
     public class DataController : Controller
     {
         // GET: DataController
         public ActionResult Data()
         {
-            DataTable dataTable = DataManager.ConvertCsvToDataTable("C:\\Users\\po01imj\\Documents\\Github\\P_FUN_323\\Data\\5634-Zeitreihe_Elektrizitätsbilanz_Schweiz_Monatswerte.csv");
+            string filename = "C:\\Users\\po01imj\\Documents\\Github\\P_FUN_323\\Data\\5634-Zeitreihe_Elektrizitätsbilanz_Schweiz_Monatswerte.csv";
 
-            var dataList = DataManager.ConvertDataTableToList(dataTable);
-            dataList.RemoveRange(0, 9);
+            CsvReader reader = new CsvReader();
+            var test = reader.ReadCsv(filename);
+            Debug.WriteLine(test);
 
-            var niceFormatedData = dataList.Select(list => list[0]);
-
-
-            return View(dataList);
+            return View(test);
         }
 
         // GET: DataController/Details/5
