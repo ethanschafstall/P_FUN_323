@@ -1,25 +1,48 @@
-﻿
+﻿@model List<EnergyData>
+
 @{
-    ViewData["Title"] = "Data";
+    ViewBag.Title = "Energy Data";
 }
 
-<table>
+<h2>Energy Data</h2>
+
+<table class="table table-bordered table-striped">
     <thead>
         <tr>
-            @foreach (var column in Model[0].Table.Columns)
-            {
-                <th>@column.ColumnName</th>
-            }
+            <th>Month</th>
+            <th>Year</th>
+            <th>Hydropower</th>
+            <th>Nuclear Power</th>
+            <th>Thermal Power</th>
+            <th>Total Production</th>
+            <th>Pumping Storage</th>
+            <th>Net Production</th>
+            <th>Import</th>
+            <th>Export</th>
+            <th>Domestic Consumption</th>
+            <th>Losses</th>
+            <th>Final Consumption</th>
+            <th>Export / Import Balance</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var row in Model)
+        @foreach (var record in Model)
         {
             <tr>
-                @foreach (var item in row.ItemArray)
-                {
-                    <td>@item</td>
-                }
+                <td>@record.Month</td>
+                <td>@record.Year</td>
+                <td>@record.Hydropower.ToString()</td>
+                <td>@record.NuclearPower.ToString()</td>
+                <td>@record.ThermalPower.ToString()</td>
+                <td>@record.TotalProduction.ToString()</td>
+                <td>@record.PumpingStorage.ToString()</td>
+                <td>@record.NetProduction.ToString()</td>
+                <td>@record.Import.ToString()</td>
+                <td>@record.Export.ToString()</td>
+                <td>@record.DomesticConsumption.ToString()</td>
+                <td>@record.Losses.ToString()</td>
+                <td>@record.FinalConsumption.ToString()</td>
+                <td>@record.ExportImportBalance.ToString()</td>
             </tr>
         }
     </tbody>
