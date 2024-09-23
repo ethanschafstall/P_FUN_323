@@ -3,7 +3,7 @@ namespace App.Models
     public class EnergyData
     {
         public string Month { get; set; }
-        public string Year { get; set; }
+        public int Year { get; set; }
         public int? Hydropower { get; set; }
         public int? NuclearPower { get; set; }
         public int? ThermalPower { get; set; }
