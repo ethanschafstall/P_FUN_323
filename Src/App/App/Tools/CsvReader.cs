@@ -72,11 +72,12 @@ namespace App.Tools
             return null;
         }
 
-        private string GetYear(string value)
+        private int GetYear(string value)
         {
-            if (value is "") return "";
-
-            return value.Substring(value.Length - 5, 5);
+            if (value is "") return 0;
+            int returnVal = 0;
+            returnVal = int.Parse(value.Substring(value.Length - 5, 5));
+            return returnVal;
         }
         private string GetMonth(string value)
         {
