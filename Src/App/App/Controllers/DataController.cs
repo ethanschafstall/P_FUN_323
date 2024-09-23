@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using App.Tools;
+using App.ViewModel;
+using App.Models;
 
 
 namespace App.Controllers
@@ -14,10 +16,24 @@ namespace App.Controllers
             string filename = "C:\\Users\\po01imj\\Documents\\Github\\P_FUN_323\\Data\\5634-Zeitreihe_Elektrizitätsbilanz_Schweiz_Monatswerte.csv";
 
             CsvReader reader = new CsvReader();
-            var test = reader.ReadCsv(filename);
-            Debug.WriteLine(test);
+            var energyDataList = reader.ReadCsv(filename);
+            DataViewModel dataViewModel = new DataViewModel();
+            dataViewModel.Data = energyDataList
+                .Where(a => a.Year >= 1995 && a.Year <= 2000)
+                .GroupBy(a => a.Year)
+                .Select(g => new Dictionary{ 
+                    Year = g.Key ,
+                    HydroProduction = g.Average(p => p.Hydropower)})
+                .ToList();
 
-            return View(test);
+            List<Tuple<int, double?>> hydropower = new List<Tuple<int, double?>>();
+            foreach (var item in hydropowerFrom1995To2000)
+            {
+                hydropower.Add(new Tuple<int, double?>(item.Year, item.HydroProduction));
+            }
+            Debug.WriteLine(hydropower.GetType());
+
+            return View(hydropower);
         }
 
         // GET: DataController/Details/5
