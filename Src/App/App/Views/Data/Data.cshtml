@@ -1,49 +1,46 @@
-﻿@model List<EnergyData>
+﻿@*@model List<EnergyData>
+@using Newtonsoft.Json;
+<script type="text/javascript">
+    let mymodel = @Html.Raw(JsonConvert.SerializeObject(Model));
+</script>*@
+@using App.ViewModel;
 
-@{
-    ViewBag.Title = "Energy Data";
+<!DOCTYPE html>
+<html>
+    @model DataViewModel
+    @using Newtonsoft.Json;
+    <script type="text/javascript">
+        let mymodel = @Html.Raw(JsonConvert.SerializeObject(Model));
+    </script>
+<script src="https://www.gstatic.com/charts/loader.js"></script>
+<body>
+<div id="myChart" style="width:100%; max-width:600px; height:500px;"></div>
+
+<script>
+google.charts.load('current',{packages:['corechart']});
+google.charts.setOnLoadCallback(drawChart);
+
+    console.log(mymodel)
+
+    function drawChart() {
+
+// Set Data
+const data = google.visualization.arrayToDataTable([['year', 'Size'],[50,7],[60,8],[70,8],[80,9],[90,9],[100,9],[110,10],[120,11],[130,14],[140,14],[150,15]]);
+
+// Set Options
+const options = {
+  title: 'House Prices vs. Size',
+  hAxis: {title: 'Square Meters'},
+  vAxis: {title: 'Price in Millions'},
+  legend: 'none'
+};
+
+// Draw
+const chart = new google.visualization.LineChart(document.getElementById('myChart'));
+chart.draw(data, options);
+
 }
+</script>
 
-<h2>Energy Data</h2>
-
-<table class="table table-bordered table-striped">
-    <thead>
-        <tr>
-            <th>Month</th>
-            <th>Year</th>
-            <th>Hydropower</th>
-            <th>Nuclear Power</th>
-            <th>Thermal Power</th>
-            <th>Total Production</th>
-            <th>Pumping Storage</th>
-            <th>Net Production</th>
-            <th>Import</th>
-            <th>Export</th>
-            <th>Domestic Consumption</th>
-            <th>Losses</th>
-            <th>Final Consumption</th>
-            <th>Export / Import Balance</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var record in Model)
-        {
-            <tr>
-                <td>@record.Month</td>
-                <td>@record.Year</td>
-                <td>@record.Hydropower.ToString()</td>
-                <td>@record.NuclearPower.ToString()</td>
-                <td>@record.ThermalPower.ToString()</td>
-                <td>@record.TotalProduction.ToString()</td>
-                <td>@record.PumpingStorage.ToString()</td>
-                <td>@record.NetProduction.ToString()</td>
-                <td>@record.Import.ToString()</td>
-                <td>@record.Export.ToString()</td>
-                <td>@record.DomesticConsumption.ToString()</td>
-                <td>@record.Losses.ToString()</td>
-                <td>@record.FinalConsumption.ToString()</td>
-                <td>@record.ExportImportBalance.ToString()</td>
-            </tr>
-        }
-    </tbody>
-</table>
+</body>
+</html>
