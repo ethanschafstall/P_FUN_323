@@ -8,7 +8,6 @@ using System.Linq;
 namespace App.Tools
 {
 
-
     public class CsvReader
     {
         public List<EnergyData> ReadCsv(string path)
@@ -79,27 +78,27 @@ namespace App.Tools
             returnVal = int.Parse(value.Substring(value.Length - 5, 5));
             return returnVal;
         }
-        private string GetMonth(string value)
+        private int? GetMonth(string value)
         {
-            if (value is "") return "";
+            if (value is "") return null;
 
             string first3Letters = value.Substring(0, 3);
             
             switch (first3Letters)
             {
-                default: return "";
-                case "Jan": return "January";
-                case "Feb": return "February";
-                case "Mär": return "March";
-                case "Apr": return "April";
-                case "Mai": return "May";
-                case "Jun": return "June";
-                case "Jul": return "July";
-                case "Aug": return "August";
-                case "Sep": return "September";
-                case "Okt": return "October";
-                case "Nov": return "November";
-                case "Dez": return "December";
+                default: return null;
+                case "Jan": return 1;
+                case "Feb": return 2;
+                case "Mär": return 3;
+                case "Apr": return 4;
+                case "Mai": return 5;
+                case "Jun": return 6;
+                case "Jul": return 7;
+                case "Aug": return 8;
+                case "Sep": return 9;
+                case "Okt": return 10;
+                case "Nov": return 11;
+                case "Dez": return 12;
             }
 
         }
