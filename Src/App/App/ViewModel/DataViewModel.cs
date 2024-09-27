@@ -1,8 +1,15 @@
 ﻿using App.Models;
 namespace App.ViewModel
 {
-    public class DataViewModel
+    public class DataCollectionViewModel
     {
-        public List<Dictionary<int, double>> Data;
+        public List<EnergyDataViewModel> list;
+
+    }
+    public class EnergyDataViewModel 
+    {
+        public int? Month;
+        public int? Year;
+        public double? Production;
     }
 }
