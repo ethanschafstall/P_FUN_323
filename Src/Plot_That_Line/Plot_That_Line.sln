@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35312.102
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plot_That_Line", "Plot_That_Line\Plot_That_Line.csproj", "{BEB6407A-6024-475A-A795-34EB5195568C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BEB6407A-6024-475A-A795-34EB5195568C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BEB6407A-6024-475A-A795-34EB5195568C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BEB6407A-6024-475A-A795-34EB5195568C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BEB6407A-6024-475A-A795-34EB5195568C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3DD02A4B-81EA-4B3C-8FDC-77A367177334}
+	EndGlobalSection
+EndGlobal
