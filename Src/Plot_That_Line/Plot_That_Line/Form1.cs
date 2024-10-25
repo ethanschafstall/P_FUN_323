@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using Plot_That_Line.Tools;
 using System.IO;
 using Plot_That_Line.Models;
+using Plot_That_Line.ViewModels;
 
 namespace Plot_That_Line
 {
@@ -31,7 +32,7 @@ namespace Plot_That_Line
         /// <summary>
         /// Energy Data Collection
         /// </summary>
-        private List<EnergyData> energyDataList_;
+        private List<EnergyDataViewModel> energyDataList_;
 
         public Form1()
         {
@@ -45,31 +46,41 @@ namespace Plot_That_Line
             string relativePath = Path.Combine(baseDir, @"..\..\..\..\..\Data\5634-Zeitreihe_Elektrizitätsbilanz_Schweiz_Monatswerte.csv"); /* Not sure if there is a prettier way of doing this */
             string fullPath = Path.GetFullPath(relativePath);
 
-            energyDataList_ = Load_Data(fullPath);
+            EnergyDataService energyDataService = new EnergyDataService(fullPath);
+            energyDataList_ = energyDataService.GetData(
+                new FilterModel() { 
+                    ShowHydro = true,
+                    ShowNuclear = true,
+                    StartYear = 1990,
+                    EndYear = 2000,
+                    SelectedMonths = Enumerable.Range(1, 12).ToList()
+                });
 
-            // Anon obj list with avg values for each energy type & total for each year key
-            var groupedData = energyDataList_
-                .Where(data => data.Year.HasValue) /* HasValue since the property is nullable */
-                .GroupBy(data => data.Year)
-                .Select(g => new
-                {
-                    Year = g.Key,
-                    AvgHydro = g.Average(data => data.Hydropower ?? 0),
-                    AvgThermal = g.Average(data => data.ThermalPower ?? 0),
-                    AvgNuclear = g.Average(data => data.NuclearPower ?? 0),
-                    AvgTotalProduction = g.Average(data => data.TotalProduction ?? 0)
-                })
-                .OrderBy(g => g.Year)
-                .ToList();
+
 
             // Total year values for X axis labels
-            var years = groupedData.Select(g => g.Year.ToString()).ToArray();
+            var years = energyDataList_.Select(g => g.Year.ToString()).ToArray();
 
-            // Average year values for Hydro, Thermal, Nuclear, and Total Production
-            var hydroValues = new ChartValues<double>(groupedData.Select(g => g.AvgHydro));
-            var thermalValues = new ChartValues<double>(groupedData.Select(g => g.AvgThermal));
-            var nuclearValues = new ChartValues<double>(groupedData.Select(g => g.AvgNuclear));
-            var totalProductionValues = new ChartValues<double>(groupedData.Select(g => g.AvgTotalProduction));
+            
+            var hydroValues = new ChartValues<double>();
+            var thermalValues = new ChartValues<double>();
+            var nuclearValues = new ChartValues<double>();
+            var totalProductionValues = new ChartValues<double>();
+
+            // Checks if production values for different types of energy exists so that it can be used as ChartValues
+            if (energyDataList_.Select(g => g.HydroProduction.HasValue).ToList().All(value => value)) 
+                hydroValues = new ChartValues<double>(energyDataList_.Select(g => g.HydroProduction.Value));
+
+            if (energyDataList_.Select(g => g.ThermalProduction.HasValue).ToList().All(value => value))
+                thermalValues = new ChartValues<double>(energyDataList_.Select(g => g.ThermalProduction.Value));
+
+            if (energyDataList_.Select(g => g.NulcearProduction.HasValue).ToList().All(value => value))
+                nuclearValues = new ChartValues<double>(energyDataList_.Select(g => g.NulcearProduction.Value));
+
+            if (energyDataList_.Select(g => g.TotalProduction.HasValue).ToList().All(value => value))
+                totalProductionValues = new ChartValues<double>(energyDataList_.Select(g => g.TotalProduction.Value));
+
+
 
             // Create the series collection for each line displayed on the graph
             var seriesCollection = new SeriesCollection
@@ -122,7 +133,7 @@ namespace Plot_That_Line
                 Foreground = Brushes.Black,
                 Separator = new Separator /* Seperates Axis label values. So Step 5 shows 0, 5, 10, etc */
                 {
-                    Step = 5
+                    Step = 2
                 }
             });
             // Configure the axis for  Y
@@ -141,10 +152,6 @@ namespace Plot_That_Line
             });
         }
 
-        private List<EnergyData> Load_Data(string dataPath)
-        {
-            return new CsvReader().ReadCsv(dataPath);
-        }
 
     }
 }
