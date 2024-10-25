@@ -85,15 +85,15 @@ namespace Plot_That_Line.Tools
             switch (first3Letters)
             {
                 default: return null;
-                case "Jan": return 1;
-                case "Feb": return 2;
-                case "Mär": return 3;
-                case "Apr": return 4;
-                case "Mai": return 5;
-                case "Jun": return 6;
-                case "Jul": return 7;
-                case "Aug": return 8;
-                case "Sep": return 9;
+                case "Jan": return 01;
+                case "Feb": return 02;
+                case "Mär": return 03;
+                case "Apr": return 04;
+                case "Mai": return 05;
+                case "Jun": return 06;
+                case "Jul": return 07;
+                case "Aug": return 08;
+                case "Sep": return 09;
                 case "Okt": return 10;
                 case "Nov": return 11;
                 case "Dez": return 12;
