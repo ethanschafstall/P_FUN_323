@@ -32,7 +32,7 @@ namespace Plot_That_Line.Tools
                     HydroProduction = filter.ShowHydro ? g.Average(data => data.Hydropower ?? 0) : (double?)null, /* Not sure why I need the cast here but it won't work otherwise */
                     ThermalProduction = filter.ShowThermal ? g.Average(data => data.ThermalPower ?? 0) : (double?)null,
                     NulcearProduction = filter.ShowNuclear ? g.Average(data => data.NuclearPower ?? 0) : (double?)null,
-                    TotalProduction = (filter.ShowNuclear && filter.ShowThermal && filter.ShowHydro) ? g.Average(data => data.NuclearPower ?? 0) : (double?)null
+                    TotalProduction = (filter.ShowNuclear && filter.ShowThermal && filter.ShowHydro) ? g.Average(data => data.TotalProduction ?? 0) : (double?)null
                 })
                 .OrderBy(g => g.Year)
                 .ToList();
