@@ -27,6 +27,10 @@ namespace Plot_That_Line.Tools
 
         public void GenerateGraph(List<EnergyDataViewModel> data, LiveCharts.WinForms.CartesianChart chart, string[] xLabels) 
         {
+            // Need otherwise the labels from past charts remain in the window and causes formating issues
+            chart.AxisX.Clear();
+            chart.AxisY.Clear();
+
             var hydroValues = new ChartValues<double>();
             var thermalValues = new ChartValues<double>();
             var nuclearValues = new ChartValues<double>();
