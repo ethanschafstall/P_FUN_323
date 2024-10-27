@@ -44,5 +44,11 @@ namespace Plot_That_Line
             });
 
 
+        private static string GetDataPath()
+        {
+            string baseDir = AppDomain.CurrentDomain.BaseDirectory;
+            string relativePath = Path.Combine(baseDir, @"..\..\..\..\..\Data\5634-Zeitreihe_Elektrizitätsbilanz_Schweiz_Monatswerte.csv");
+            return Path.GetFullPath(relativePath);
+        }
     }
 }
