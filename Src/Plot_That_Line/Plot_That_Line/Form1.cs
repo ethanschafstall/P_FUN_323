@@ -15,6 +15,7 @@ namespace Plot_That_Line
     public partial class Form1 : Form
     {
         // Variables for holding the current filters selected, clears the list and adds the newest filter.
+        // done this way so that the I can still use the latest filter while keeping it immutable.
         private List<bool> _showHydro = new List<bool> { true };
         private List<bool> _showNuclear = new List<bool> { true };
         private List<bool> _showThermal = new List<bool> { true };
@@ -29,7 +30,7 @@ namespace Plot_That_Line
         public Form1()
         {
             InitializeComponent();
-            // Initialize the chart and add it to the form
+            // Initialize the chart
             _chart.Add(new CartesianChart()
             {
                 Location = new Point(378, 54),
@@ -40,7 +41,7 @@ namespace Plot_That_Line
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            // Load initial components and settings
+            // Load initial components
             InitYearComponent();
             InitEnergyTypeComponent();
             InitGraph();
@@ -49,7 +50,7 @@ namespace Plot_That_Line
 
         private void InitYearComponent()
         {
-            var years = Enumerable.Range(1990, 34).ToList(); // Create a list of years from 1990 to 2023
+            var years = Enumerable.Range(1990, 34).ToList(); // Create a list of years for filter combobox
 
             // ComboBox for start year selection
             ComboBox startYearBox = new ComboBox
@@ -72,11 +73,11 @@ namespace Plot_That_Line
                 endYearBox.Items.Add(year);
             }
 
-            // Handle start year selection change
+            // start year selection change event
             startYearBox.SelectedIndexChanged += (sender, e) =>
             {
                 int selectedStartYear = (int)startYearBox.SelectedItem;
-                // Validate the selected start year
+
                 if (selectedStartYear > _endYear[0])
                 {
                     MessageBox.Show("Start year cannot be greater than the end year.", "Invalid Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -90,11 +91,10 @@ namespace Plot_That_Line
                 }
             };
 
-            // Handle end year selection change
+            // end year selection change event
             endYearBox.SelectedIndexChanged += (sender, e) =>
             {
                 int selectedEndYear = (int)endYearBox.SelectedItem;
-                // Validate the selected end year
                 if (selectedEndYear < _startYear[0])
                 {
                     MessageBox.Show("End year cannot be less than the start year.", "Invalid Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -108,17 +108,17 @@ namespace Plot_That_Line
                 }
             };
 
-            // Set default selections
+            // Set default start and end year (full range of data set)
             startYearBox.SelectedIndex = startYearBox.Items.IndexOf(_startYear[0]);
             endYearBox.SelectedIndex = endYearBox.Items.IndexOf(_endYear[0]);
 
-            this.Controls.Add(startYearBox); // Add ComboBoxes to the form
+            this.Controls.Add(startYearBox);
             this.Controls.Add(endYearBox);
         }
 
         private void InitTitles()
         {
-            // Title for Start Year ComboBox
+            // Title for Start Year filter
             Label startYearLabel = new Label
             {
                 Text = "Select Start Year:",
@@ -128,7 +128,7 @@ namespace Plot_That_Line
             };
             this.Controls.Add(startYearLabel);
 
-            // Title for End Year ComboBox
+            // Title for End Year filter
             Label endYearLabel = new Label
             {
                 Text = "Select End Year:",
@@ -138,7 +138,7 @@ namespace Plot_That_Line
             };
             this.Controls.Add(endYearLabel);
 
-            // Title for Energy Type CheckedListBox
+            // Title for Energy Type filter
             Label energyTypeLabel = new Label
             {
                 Text = "Select Energy Types:",
@@ -174,18 +174,18 @@ namespace Plot_That_Line
                 energyTypeList.Items.Add(item, true);
             }
 
-            // Handle changes in checked items
+            // filter check box event
             energyTypeList.ItemCheck += (sender, e) =>
             {
                 // Ensure at least one item is checked
                 if (energyTypeList.CheckedItems.Count == 1 && e.NewValue == CheckState.Unchecked)
                 {
-                    e.NewValue = CheckState.Checked; // Prevent unchecking the last checked item
+                    e.NewValue = CheckState.Checked;
                     MessageBox.Show("At least one energy type must be selected.", "Selection Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
-                // Update visibility settings based on checked items
+                // resets immutable filter lists
                 _showHydro.Clear();
                 _showNuclear.Clear();
                 _showThermal.Clear();
@@ -193,6 +193,7 @@ namespace Plot_That_Line
 
                 this.BeginInvoke(new Action(() =>
                 {
+                    // loops through each energy type filter checkbox, if checked then the filter becomes actif
                     for (int i = 0; i < energyTypeList.Items.Count; i++)
                     {
                         bool isChecked = energyTypeList.GetItemChecked(i);
@@ -216,12 +217,12 @@ namespace Plot_That_Line
                 }));
             };
 
-            this.Controls.Add(energyTypeList); // Add CheckedListBox to the form
+            this.Controls.Add(energyTypeList);
         }
 
         private void InitGraph()
         {
-            // Retrieve data based on current filters
+            // Retrieve data based on current active filters
             var data = new EnergyDataService(GetDataPath()).GetData(
             new FilterModel()
             {
