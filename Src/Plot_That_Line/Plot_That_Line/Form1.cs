@@ -113,11 +113,18 @@ namespace Plot_That_Line
 
             foreach (var item in new List<string> { "Hydro", "Nuclear", "Thermal", "Total" })
             {
-                energyTypeList.Items.Add(item);
+                energyTypeList.Items.Add(item, true);
             }
 
             energyTypeList.ItemCheck += (sender, e) =>
             {
+                if (energyTypeList.CheckedItems.Count == 1 && e.NewValue == CheckState.Unchecked)
+                {
+                    e.NewValue = CheckState.Checked;
+                    MessageBox.Show("At least one energy type must be selected.", "Selection Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                
                 _showHydro.Clear();
                 _showNuclear.Clear();
                 _showThermal.Clear();
