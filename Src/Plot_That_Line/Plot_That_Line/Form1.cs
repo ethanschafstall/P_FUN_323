@@ -103,6 +103,7 @@ namespace Plot_That_Line
                 _showHydro.Clear();
                 _showNuclear.Clear();
                 _showThermal.Clear();
+                _showTotal.Clear();
 
                 this.BeginInvoke(new Action(() =>
                 {
@@ -121,15 +122,7 @@ namespace Plot_That_Line
                                 _showThermal.Add(isChecked);
                                 break;
                             case "Total":
-                                if (isChecked) 
-                                {
-                                    _showHydro.Clear();
-                                    _showNuclear.Clear();
-                                    _showThermal.Clear();
-                                    _showHydro.Add(isChecked);
-                                    _showNuclear.Add(isChecked);
-                                    _showThermal.Add(isChecked);
-                                }
+                                _showTotal.Add(isChecked);
                                 break;
                         }
                     }
@@ -148,6 +141,7 @@ namespace Plot_That_Line
                 ShowHydro = _showHydro[0],
                 ShowNuclear = _showNuclear[0],
                 ShowThermal = _showThermal[0],
+                ShowTotal = _showTotal[0],
                 StartYear = _startYear[0],
                 EndYear = _endYear[0],
                 SelectedMonths = _selectedMonths,

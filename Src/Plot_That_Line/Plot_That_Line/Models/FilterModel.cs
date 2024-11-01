@@ -10,5 +10,6 @@ namespace Plot_That_Line.Models
         public bool ShowHydro { get; set; }
         public bool ShowThermal { get; set; }
         public bool ShowNuclear { get; set; }
+        public bool ShowTotal { get; set; }
     }
 }
