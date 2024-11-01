@@ -67,16 +67,34 @@ namespace Plot_That_Line
 
             startYearBox.SelectedIndexChanged += (sender, e) =>
             {
-                _startYear.Clear();
-                _startYear.Add((int)startYearBox.SelectedItem);
-                InitGraph();
+                int selectedStartYear = (int)startYearBox.SelectedItem;
+                if (selectedStartYear > _endYear[0])
+                {
+                    MessageBox.Show("Start year cannot be greater than the end year.", "Invalid Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    startYearBox.SelectedIndex = startYearBox.Items.IndexOf(_startYear[0]);
+                }
+                else
+                {
+                    _startYear.Clear();
+                    _startYear.Add(selectedStartYear);
+                    InitGraph();
+                }
             };
 
             endYearBox.SelectedIndexChanged += (sender, e) =>
             {
-                _endYear.Clear();
-                _endYear.Add((int)endYearBox.SelectedItem);
-                InitGraph();
+                int selectedEndYear = (int)endYearBox.SelectedItem;
+                if (selectedEndYear < _startYear[0])
+                {
+                    MessageBox.Show("End year cannot be less than the start year.", "Invalid Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    endYearBox.SelectedIndex = endYearBox.Items.IndexOf(_endYear[0]);
+                }
+                else
+                {
+                    _endYear.Clear();
+                    _endYear.Add(selectedEndYear);
+                    InitGraph();
+                }
             };
             
             startYearBox.SelectedIndex = startYearBox.Items.IndexOf(_startYear[0]);
