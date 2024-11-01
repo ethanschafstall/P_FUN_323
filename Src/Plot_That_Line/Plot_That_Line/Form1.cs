@@ -42,6 +42,7 @@ namespace Plot_That_Line
             InitYearComponent();
             InitEnergyTypeComponent();
             InitGraph();
+            InitTitles();
         }
         private void InitYearComponent()
         {
@@ -102,6 +103,47 @@ namespace Plot_That_Line
 
             this.Controls.Add(startYearBox);
             this.Controls.Add(endYearBox);
+        }
+        private void InitTitles()
+        {
+            // Title for Start Year ComboBox
+            Label startYearLabel = new Label
+            {
+                Text = "Select Start Year:",
+                Font = new Font("Arial", 10, FontStyle.Bold),
+                Location = new Point(15, 10),
+                AutoSize = true
+            };
+            this.Controls.Add(startYearLabel);
+
+            // Title for End Year ComboBox
+            Label endYearLabel = new Label
+            {
+                Text = "Select End Year:",
+                Font = new Font("Arial", 10, FontStyle.Bold),
+                Location = new Point(15, 60),
+                AutoSize = true
+            };
+            this.Controls.Add(endYearLabel);
+
+            // Title for Energy Type CheckedListBox
+            Label energyTypeLabel = new Label
+            {
+                Text = "Select Energy Types:",
+                Font = new Font("Arial", 10, FontStyle.Bold),
+                Location = new Point(160, 10),
+                AutoSize = true
+            };
+            this.Controls.Add(energyTypeLabel);
+            // Title for Chart
+            Label chartLabel = new Label
+            {
+                Text = "Swiss Energy Production",
+                Font = new Font("Arial", 15, FontStyle.Bold | FontStyle.Underline),
+                Location = new Point(778, 14),
+                AutoSize = true
+            };
+            this.Controls.Add(chartLabel);
         }
         private void InitEnergyTypeComponent()
         {
