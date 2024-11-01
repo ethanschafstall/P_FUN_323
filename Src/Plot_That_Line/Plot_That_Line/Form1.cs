@@ -31,7 +31,7 @@ namespace Plot_That_Line
             InitializeComponent();
             _chart.Add(new CartesianChart()
             {
-                Location = new Point(378, 34),
+                Location = new Point(378, 54),
                 Size = new Size(1030, 600)
             });
             this.Controls.Add(_chart[0]); 
